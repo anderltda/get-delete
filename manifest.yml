@@ -1,8 +1,8 @@
 ---
 applications:
- - name: FindAll
+ - name: Deletar
    random-route: false
-   path: target/FindAll.war
+   path: target/Deletar.war
    memory: 256M
    instances: 1
    buildpack: liberty-for-java

@@ -15,16 +15,13 @@
  *******************************************************************************/
 package wasdev.sample.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.GET;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
-
-import com.google.gson.Gson;
+import javax.ws.rs.core.MediaType;
 
 import wasdev.sample.store.MedicalStore;
 import wasdev.sample.store.MedicalStoreFactory;
@@ -41,25 +38,24 @@ public class MedicalAPI extends Application {
 	//Our database store
 	MedicalStore store = MedicalStoreFactory.getInstance();
 
-    /**
-     * @return
-     */
-    @GET
-    @Path("findAll")
-    @Produces({"application/json"})
-    public String getMedicals() {
+	/**
+	 * @param _id
+	 * @return
+	 */
+	@DELETE
+	@Path("/delete")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public String delete(String _id) {
 
 		if (store == null) {
-			return "[]";
+			return String.format("No found store", "");
 		}
 
-		List<Medical> names = new ArrayList<Medical>();
+		Medical medical = store.get(_id);
 		
-		for (Medical medical : store.getAll()) {
-			if (medical != null){
-				names.add(medical);
-			}
-		}
-		return new Gson().toJson(names);
-    }
+		store.delete(_id);
+		
+		return String.format("O Médico %s foi excluido com sucesso.", medical.getName());
+	}
 }
