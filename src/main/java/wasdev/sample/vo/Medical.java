@@ -15,11 +15,21 @@
  */
 package wasdev.sample.vo;
 
+import java.io.Serializable;
+
 /**
  * Represents a Medical document stored in Cloudant.
  */
 
-public class Medical {
+public class Medical implements Serializable {
+	
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String _id;
 	private String _rev;
 	private String rm = null;

@@ -23,9 +23,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
+import com.google.gson.Gson;
+
 import wasdev.sample.store.MedicalStore;
 import wasdev.sample.store.MedicalStoreFactory;
 import wasdev.sample.vo.Medical;
+import wasdev.sample.vo.Response;
 
 /**
  * @author anderson.nascimento
@@ -44,18 +47,16 @@ public class MedicalAPI extends Application {
 	 */
 	@DELETE
 	@Path("/delete")
-	@Produces(MediaType.TEXT_PLAIN)
-	@Consumes(MediaType.TEXT_PLAIN)
-	public String delete(String _id) {
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String delete(Medical me) {
 
 		if (store == null) {
 			return String.format("No found store", "");
 		}
-
-		Medical medical = store.get(_id);
 		
-		store.delete(_id);
+		store.delete(me.get_id());
 		
-		return String.format("O Médico %s foi excluido com sucesso.", medical.getName());
+		return new Gson().toJson(new Response());
 	}
 }
